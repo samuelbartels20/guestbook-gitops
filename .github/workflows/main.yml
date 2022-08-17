@@ -50,9 +50,10 @@ jobs:
         # Build a docker container and
         # push it to ECR so that it can
         # be deployed to ECS.
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+        # Build and tag the image
+        docker build \
+          -t $CONTAINER_IMAGE \
+          -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE ./php-redis
 
 
     # Add steps here like linting, testing, minification, etc.
@@ -63,11 +64,11 @@ jobs:
     #     $( aws ecr get-login --no-include-email )
     #   id: login-ecr
     # - name: Build and tag the image
-    #   run: |
-    #     # Build and tag the image
-    #     docker build \
-    #       -t $CONTAINER_IMAGE \
-    #       -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE ./php-redis
+      # run: |
+      #   # Build and tag the image
+      #   docker build \
+      #     -t $CONTAINER_IMAGE \
+      #     -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE ./php-redis
  
     # Set image tag in kustomization
 
